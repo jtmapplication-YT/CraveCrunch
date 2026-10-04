@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <header className="bg-orange">
         <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-8">
-          <span className="font-display text-2xl font-black tracking-[0.02em]">CraveCrunch</span>
+          <span className="font-display text-2xl">CraveCrunch</span>
           <div className="flex items-center gap-3 text-base font-semibold">
             <a href="#how" className="hidden sm:inline">How it works</a>
             <a href="#get-app" className="pressable rounded-full bg-ink px-4 py-2 text-white">Get the app</a>
@@ -23,7 +23,7 @@ export default function Home() {
         <section className="mx-auto grid w-full max-w-6xl gap-10 px-4 pb-12 pt-6 sm:px-8 md:grid-cols-[1.15fr_1fr] md:items-center md:pb-20 md:pt-10">
           <div className="flex flex-col gap-4">
             <p className="text-xs font-bold uppercase tracking-[0.06em]">Hole-in-the-wall food finder</p>
-            <h1 className="font-display text-[3.5rem] font-black leading-[0.9] text-balance sm:text-[6rem]">
+            <h1 className="font-display text-[2.75rem] leading-[1.02] text-balance sm:text-[4.5rem]">
               What are you craving tonight?
             </h1>
             <p className="max-w-prose text-lg font-medium">
@@ -45,9 +45,9 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-between rounded-lg bg-surface px-4 py-3 text-base">
               <span className="text-secondary">Budget</span>
-              <span className="font-display text-xl font-black">$$</span>
+              <span className="text-lg font-extrabold">$$</span>
             </div>
-            <button type="button" className="pressable font-display rounded-full bg-ink px-5 py-3 text-xl font-black tracking-[0.04em] text-white">
+            <button type="button" className="pressable rounded-full bg-ink px-5 py-3.5 text-base font-bold text-white">
               Crunch it 🎲
             </button>
           </div>
@@ -56,7 +56,7 @@ export default function Home() {
 
       <main className="flex flex-col">
         <section id="how" className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 py-12 sm:px-8">
-          <h2 className="font-display text-[2.5rem] font-black leading-[0.95] sm:text-[3.5rem]">
+          <h2 className="text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.5rem]">
             Tonight&apos;s picks for 🔥 + 🌮
           </h2>
           <ul className="grid gap-4 md:grid-cols-3">
@@ -65,7 +65,7 @@ export default function Home() {
                 <span className={`text-sm font-semibold ${isHiddenGem(r) ? "text-orange-ink" : "text-secondary"}`}>
                   {isHiddenGem(r) ? "💎 Hidden gem" : "Local favorite"}
                 </span>
-                <span className="font-display text-3xl font-black leading-none tracking-[0.01em]">{r.name}</span>
+                <span className="font-display text-[1.75rem] leading-tight">{r.name}</span>
                 <span className="text-sm text-secondary">
                   {r.vibes.map((v) => vibeById(v)?.emoji).join(" ")} · {r.rating} from {r.reviewCount} reviews
                 </span>
@@ -77,7 +77,7 @@ export default function Home() {
 
         <section id="get-app" className="mx-auto w-full max-w-6xl px-4 pb-12 sm:px-8">
           <div className="flex flex-col items-start gap-4 rounded-2xl bg-ink p-6 text-white sm:p-10">
-            <h2 className="font-display text-[2.5rem] font-black leading-[0.95] sm:text-[3.5rem]">
+            <h2 className="text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.5rem]">
               Know a <span className="text-orange">hole-in-the-wall</span> spot?
             </h2>
             <p className="max-w-prose text-base text-white/80">
@@ -92,7 +92,7 @@ export default function Home() {
 
       <footer className="mt-auto bg-ink py-8 text-sm text-white/70">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-8">
-          <span className="font-display text-xl font-black text-white">CraveCrunch</span>
+          <span className="font-display text-xl text-white">CraveCrunch</span>
         </div>
       </footer>
     </>

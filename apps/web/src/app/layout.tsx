@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Big_Shoulders, Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Shrikhand } from "next/font/google";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"] });
-// Tall condensed menu-board type for headlines ("Night Market"). See DESIGN.md.
-const bigShoulders = Big_Shoulders({ variable: "--font-display", subsets: ["latin"], weight: ["800", "900"] });
+// Retro diner display face for the logo, hero headline and restaurant names (24px and up). See DESIGN.md.
+const shrikhand = Shrikhand({ variable: "--font-display", subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "CraveCrunch",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${bigShoulders.variable} h-full antialiased`}>
+    <html lang="en" className={`${jakarta.variable} ${shrikhand.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );

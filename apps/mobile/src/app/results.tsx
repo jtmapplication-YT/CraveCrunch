@@ -35,7 +35,7 @@ export default function Results() {
           entering={FadeInDown.duration(motion.enterMs).delay(index * motion.staggerMs)}
           style={styles.card}>
           {isHiddenGem(item) && <Text style={styles.gem}>💎 Hidden gem</Text>}
-          <Text style={styles.name}>{item.name.toUpperCase()}</Text>
+          <Text style={styles.name}>{item.name}</Text>
           <View>
             <Text style={styles.meta}>
               {item.vibes.map((v) => vibeById(v)?.emoji).join(' ')} · {item.rating} from {item.reviewCount} reviews
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   gem: { color: colors.orangeInk, fontSize: 13, fontFamily: fonts.medium },
-  name: { color: colors.ink, fontSize: 28, lineHeight: 30, fontFamily: fonts.display, letterSpacing: 0.3 },
+  name: { color: colors.ink, fontSize: 24, lineHeight: 30, fontFamily: fonts.display },
   meta: { color: colors.textSecondary, fontSize: 14, fontFamily: fonts.regular },
   note: { color: colors.textMuted, fontSize: 12, fontFamily: fonts.medium, marginTop: 8 },
 });

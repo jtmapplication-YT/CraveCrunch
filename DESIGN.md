@@ -1,7 +1,7 @@
 ---
-version: 4
+version: 5
 name: CraveCrunch
-description: Light, sleek food-finder UI inspired by Uber's design system, with orange as the action color, Night Market headlines (tall condensed all-caps Big Shoulders on orange bands) and emoji vibe tags. Colors match the Figma tokens v0.2 (light).
+description: Light, sleek food-finder UI inspired by Uber's design system, with orange as the action color, Night Market layout (orange header bands, black buttons) and a retro diner display face (Shrikhand) and emoji vibe tags. Matches the Figma tokens v0.3.
 
 colors:
   ink: "#000000"            # headings, body, selected chips, dark bands
@@ -18,12 +18,14 @@ colors:
   on-brand: "#ffffff"
 
 typography:
-  display-family: Big Shoulders, weights 800-900, always uppercase. Headlines, logo, restaurant names, primary button.
-  family: Plus Jakarta Sans, then system-ui, -apple-system, Helvetica Neue, Arial. Everything else.
-  hero: 96 (web) / 52-56 (phone) / 0.9 / Big Shoulders 900 / uppercase
-  display-l: 56 / 0.95 / Big Shoulders 900 / uppercase
-  heading-h1: 32 / 1.0 / Big Shoulders 900 / uppercase
-  heading-h2: 28 / 1.05 / Big Shoulders 900 / uppercase (restaurant names)
+  display-family: Shrikhand 400, sentence case, 24px and up only. Logo, hero headline, screen titles, restaurant names.
+  family: Plus Jakarta Sans, then system-ui, -apple-system, Helvetica Neue, Arial. Everything else, including section headings and buttons.
+  display-xl: 44 (phone) / 72 (web) / 1.0 / Shrikhand 400
+  display-l: 34 / 1.05 / Shrikhand 400
+  heading-h1: 24 / 1.2 / 800 / -0.02em
+  heading-h2: 20 / 1.25 / 800 / -0.015em
+  logo: 24 / Shrikhand 400
+  button: 16 / 700
   heading-h3: 16 / 1.3 / 600
   body-l: 16 / 1.5 / 400
   body-m: 14 / 1.5 / 400
@@ -41,7 +43,7 @@ shadow:
 
 # CraveCrunch design
 
-This file wins over the brand references in `.claude/skills/design-md`. The Figma file and `/mnt/project-files/design/tokens-v0.2-light.json` hold the same values; change all of them together.
+This file wins over the brand references in `.claude/skills/design-md`. The Figma file and `/mnt/project-files/design/tokens-v0.3.json` hold the same values; change all of them together.
 
 ## Feel
 
@@ -50,7 +52,7 @@ Clean white pages, black type, pill-shaped controls and one warm accent. The UI 
 ## Color rules
 
 - **Orange is the brand color.** The top of key screens (and the web hero) sits on a full-width bright `orange` band with ink text. Ink on `orange` passes contrast (7:1); white on `orange` does not, so never put white text on it.
-- The primary CTA ("CRUNCH IT") is a black pill with white Big Shoulders text. On a black band, the CTA flips to an `orange` pill with ink text.
+- The primary CTA ("Crunch it") is a black pill with a white Plus Jakarta Sans 700 label. On a black band, the CTA flips to an `orange` pill with ink text.
 - On white, bright `orange` is for bands, the left accent bar on pick cards, progress, and large display text (32px+). Never small text on white.
 - Small orange text on white (the 💎 Hidden gem badge, eyebrows, links) uses `orange-ink`.
 - Secondary CTA is a `surface` gray pill.
@@ -63,12 +65,12 @@ Clean white pages, black type, pill-shaped controls and one warm accent. The UI 
 - Cards are flat `surface` gray. Pick cards have a 4px `orange` left bar (4px radius on the left, 16px on the right). The craving card on an orange band is white with the `card` shadow.
 - A black band mid-page (white text, white pill button) breaks up long white pages.
 
-## Type ("Night Market")
+## Type
 
-- Headlines use Big Shoulders black, all caps, very tight leading (0.9-1.0), like a menu board or night-market sign. Keep them short and punchy ("WHAT ARE YOU CRAVING TONIGHT?").
-- The logo is the wordmark CRAVECRUNCH in Big Shoulders 900.
-- One key phrase per headline can turn `orange` on a black band (for example "HOLE-IN-THE-WALL").
-- Body, labels and chips use Plus Jakarta Sans in sentence case. Uppercase Jakarta only for small `label-s` eyebrows like "QUESTION 1 OF 2": `orange-ink` on white, ink on an orange band.
+- Shrikhand, a chunky retro diner script, is the personality: the logo "CraveCrunch", the hero headline on the orange band, screen titles and restaurant names. Sentence case, never all caps, never below 24px (it gets hard to read).
+- Section headings ("Tonight's picks", "What's the budget?") use Plus Jakarta Sans 800 with slight negative tracking.
+- One key phrase per headline can turn `orange` on a black band (for example "hole-in-the-wall").
+- Uppercase Jakarta only for small `label-s` eyebrows like "QUESTION 1 OF 2": `orange-ink` on white, ink on an orange band.
 
 ## Vibe tags
 
@@ -80,4 +82,4 @@ Follow the `emil-design-eng` skill: pills scale to 0.97 on press over 160ms with
 
 ## Code
 
-Tokens live in `packages/core/src/theme.ts`, are mirrored as CSS variables in `apps/web/src/app/globals.css` (`.font-display`), and the app loads the font faces in `apps/mobile/src/app/_layout.tsx` (`@expo-google-fonts/big-shoulders`).
+Tokens live in `packages/core/src/theme.ts`, are mirrored as CSS variables in `apps/web/src/app/globals.css` (`.font-display`), and the app loads the font faces in `apps/mobile/src/app/_layout.tsx` (`@expo-google-fonts/shrikhand`).

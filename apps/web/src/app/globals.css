@@ -37,10 +37,10 @@ body {
   color: var(--ink);
 }
 
-/* Night Market headlines: tall condensed all-caps, like a menu board. */
+/* Shrikhand display face: logo, hero headline, restaurant names. 24px and up only. */
 .font-display {
   font-family: var(--font-display), var(--font-jakarta), system-ui, sans-serif;
-  text-transform: uppercase;
+  font-weight: 400;
 }
 
 .pressable {
