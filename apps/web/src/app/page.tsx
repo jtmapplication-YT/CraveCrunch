@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <nav className="flex items-center justify-between px-4 py-4 sm:px-8">
         <span className="text-xl font-bold tracking-normal">
-          Crave<span className="text-orange">Crunch</span>
+          Crave<span className="text-orange-ink">Crunch</span>
         </span>
         <div className="flex items-center gap-3 text-base font-medium">
           <a href="#how" className="hidden sm:inline">How it works</a>
@@ -24,32 +24,32 @@ export default function Home() {
       <main className="flex flex-col">
         <section className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-10 sm:px-8 md:grid-cols-2 md:items-center md:py-16">
           <div className="flex flex-col gap-4">
-            <h1 className="text-[2.5rem] font-bold leading-tight sm:text-[3.25rem] sm:leading-[4rem]">
+            <h1 className="text-[2.5rem] font-extrabold leading-[1.15] tracking-[-0.025em] sm:text-[3.25rem]">
               Find the spot that fits your craving
             </h1>
-            <p className="max-w-prose text-lg font-medium text-body">
+            <p className="max-w-prose text-lg font-medium text-secondary">
               Tell CraveCrunch your mood. It finds the small local places that fit, and locals tell you what to order.
             </p>
           </div>
 
           <div className="flex flex-col gap-4 rounded-2xl bg-canvas p-4 shadow-[0_4px_16px_rgba(0,0,0,0.16)] sm:p-6">
-            <p className="text-sm font-medium text-body">What&apos;s the vibe tonight?</p>
+            <p className="text-sm font-medium text-secondary">What&apos;s the vibe tonight?</p>
             <div className="flex flex-wrap gap-2">
               {VIBE_TAGS.map((tag) => (
                 <span
                   key={tag.id}
                   className={`rounded-full px-4 py-2 text-sm font-medium ${
-                    SELECTED.has(tag.id) ? "bg-ink text-white" : "bg-canvas-soft text-ink"
+                    SELECTED.has(tag.id) ? "bg-ink text-white" : "bg-surface text-ink"
                   }`}>
                   {tag.emoji} {tag.label}
                 </span>
               ))}
             </div>
-            <div className="flex items-center justify-between rounded-lg bg-canvas-soft px-4 py-3 text-base">
-              <span className="text-body">Budget</span>
+            <div className="flex items-center justify-between rounded-lg bg-surface px-4 py-3 text-base">
+              <span className="text-secondary">Budget</span>
               <span className="font-medium">$$</span>
             </div>
-            <button type="button" className="pressable rounded-full bg-orange px-5 py-3 text-base font-medium text-ink">
+            <button type="button" className="pressable rounded-full bg-orange-strong px-5 py-3 text-base font-semibold text-white active:bg-orange-ink">
               Crunch it 🎲
             </button>
           </div>
@@ -59,18 +59,18 @@ export default function Home() {
           <h2 className="text-[1.75rem] font-bold sm:text-4xl">Picks for 🔥 Spicy + 🌮 Street food</h2>
           <ul className="grid gap-4 md:grid-cols-3">
             {picks.map((r) => (
-              <li key={r.id} className="flex flex-col gap-1 rounded-2xl bg-canvas-soft p-6">
+              <li key={r.id} className="flex flex-col gap-1 rounded-2xl bg-surface p-6">
                 <span className={`text-sm font-medium ${isHiddenGem(r) ? "text-orange-ink" : "hidden md:invisible md:inline"}`}>
                   💎 Hidden gem
                 </span>
                 <span className="text-xl font-bold">{r.name}</span>
-                <span className="text-sm text-body">
+                <span className="text-sm text-secondary">
                   {r.vibes.map((v) => vibeById(v)?.emoji).join(" ")} · {r.rating} from {r.reviewCount} reviews
                 </span>
               </li>
             ))}
           </ul>
-          <p className="text-xs text-body">Sample data until real restaurants are connected.</p>
+          <p className="text-xs text-secondary">Sample data until real restaurants are connected.</p>
         </section>
 
         <section id="get-app" className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-8">

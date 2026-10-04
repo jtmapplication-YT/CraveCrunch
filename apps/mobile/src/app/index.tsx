@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { VIBE_TAGS, colors, radii, type PriceLevel, type VibeTagId } from '@cravecrunch/core';
 
 import { PressScale } from '@/components/press-scale';
+import { fonts } from '@/constants/fonts';
 
 const PRICES: PriceLevel[] = [1, 2, 3, 4];
 
@@ -55,7 +56,7 @@ export default function CraveQuestionnaire() {
           router.push({ pathname: '/results', params: { vibes: vibes.join(','), maxPrice: String(maxPrice) } })
         }>
         <View style={[styles.cta, vibes.length === 0 && styles.ctaDisabled]}>
-          <Text style={styles.ctaText}>{vibes.length === 0 ? 'Pick a vibe first' : 'Crunch it 🎲'}</Text>
+          <Text style={[styles.ctaText, vibes.length === 0 && styles.ctaTextDisabled]}>{vibes.length === 0 ? 'Pick a vibe first' : 'Crunch it 🎲'}</Text>
         </View>
       </PressScale>
     </ScrollView>
@@ -64,14 +65,15 @@ export default function CraveQuestionnaire() {
 
 const styles = StyleSheet.create({
   page: { padding: 16, gap: 12 },
-  eyebrow: { color: colors.body, fontSize: 12, fontWeight: '500', letterSpacing: 1.2, marginTop: 12 },
-  question: { color: colors.ink, fontSize: 24, lineHeight: 32, fontWeight: '700' },
+  eyebrow: { color: colors.orangeInk, fontSize: 11, fontFamily: fonts.bold, letterSpacing: 0.66, marginTop: 12 },
+  question: { color: colors.ink, fontSize: 24, lineHeight: 31, fontFamily: fonts.bold, letterSpacing: -0.36 },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: radii.pill, backgroundColor: colors.canvasSoft },
+  chip: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: radii.pill, backgroundColor: colors.surface },
   chipOn: { backgroundColor: colors.ink },
-  chipText: { color: colors.ink, fontSize: 14, fontWeight: '500' },
-  chipTextOn: { color: colors.onDark },
-  cta: { marginTop: 20, borderRadius: radii.pill, paddingVertical: 16, alignItems: 'center', backgroundColor: colors.orange },
-  ctaDisabled: { backgroundColor: colors.canvasSoft },
-  ctaText: { color: colors.ink, fontSize: 18, fontWeight: '500' },
+  chipText: { color: colors.ink, fontSize: 14, fontFamily: fonts.medium },
+  chipTextOn: { color: colors.onBrand },
+  cta: { marginTop: 20, borderRadius: radii.pill, paddingVertical: 16, alignItems: 'center', backgroundColor: colors.orangeStrong },
+  ctaDisabled: { backgroundColor: colors.elevated },
+  ctaText: { color: colors.onBrand, fontSize: 16, fontFamily: fonts.semibold },
+  ctaTextDisabled: { color: colors.textMuted },
 });

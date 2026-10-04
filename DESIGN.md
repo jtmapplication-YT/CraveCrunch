@@ -1,69 +1,74 @@
 ---
-version: 1
+version: 2
 name: CraveCrunch
-description: Light, sleek food-finder UI adapted from the Uber-inspired system in .claude/skills/design-md/references/uber.md, with one added accent, Crave Orange, and emoji vibe tags.
+description: Light, sleek food-finder UI inspired by Uber's design system, with orange as the only action color and emoji vibe tags. Matches the Figma tokens v0.2 (light).
 
 colors:
-  ink: "#000000"           # headings, body, selected chips, dark bands
-  body: "#5e5e5e"          # secondary text
-  mute: "#afafaf"          # placeholders, fine print
-  canvas: "#ffffff"        # page background
-  canvas-soft: "#efefef"   # chips, inputs, soft cards
-  canvas-softer: "#f3f3f3"
-  surface-pressed: "#e2e2e2"
-  orange: "#ff6b00"        # Crave Orange: primary CTA fill (ink text on it)
-  orange-ink: "#c2410c"    # orange text on white (gem badge, links), passes AA
-  orange-soft: "#fff1e6"   # tinted highlight surfaces
-  on-dark: "#ffffff"
+  ink: "#000000"            # headings, body, selected chips, dark bands
+  text-secondary: "#4b4b4b"
+  text-muted: "#6b6b6b"     # captions on white (5.3:1)
+  canvas: "#ffffff"
+  surface: "#f6f6f6"        # cards, chips, inputs
+  elevated: "#eeeeee"
+  border-subtle: "#e8e8e8"
+  orange: "#ff5a00"         # decorative only: progress, outlines, numbers 24px+
+  orange-strong: "#d63f00"  # primary CTA fill under white text (4.6:1)
+  orange-ink: "#b83a00"     # small orange text on white, pressed CTA (5.9:1)
+  orange-tint: "#fff1e6"    # tinted highlight surfaces
+  on-brand: "#ffffff"
 
 typography:
-  family: Inter (substitute for Uber Move), system-ui fallback. Weight 700 for display, 400/500 for text.
-  display-xxl: 52/64 700
-  display-xl: 36/44 700
-  display-md: 24/32 700
-  display-sm: 20/28 700
-  body-lg: 18/24 500
-  body-md: 16/24 400
-  body-sm: 14/20 400
-  button: 16/20 500
+  family: Plus Jakarta Sans, then system-ui, -apple-system, Helvetica Neue, Arial
+  display-xl: 40 / 1.15 / 800 / -0.025em
+  display-l: 32 / 1.2 / 700 / -0.02em
+  heading-h1: 24 / 1.28 / 700 / -0.015em
+  heading-h2: 20 / 1.35 / 700 / -0.01em
+  heading-h3: 16 / 1.3 / 600
+  body-l: 16 / 1.5 / 400
+  body-m: 14 / 1.5 / 400
+  label-m: 13 / 1.3 / 500
+  label-s: 11 / 1.3 / 700 / 0.06em / uppercase
+  caption: 12 / 1.4 / 500
 
-rounded:
-  md: 8px
-  xl: 16px
-  pill: 999px
-
-spacing: [4, 6, 8, 12, 16, 20, 24, 32]
+rounded: { sm: 8, md: 12, lg: 16, pill: 999 }
+spacing: [4, 8, 12, 16, 20, 24, 32, 48]
+shadow:
+  card: 0 8px 24px rgba(0,0,0,0.08)
+  soft: 0 4px 12px rgba(0,0,0,0.08)
+  brand: 0 6px 16px rgba(255,90,0,0.28)
 ---
 
 # CraveCrunch design
 
-This file wins over the brand references in `.claude/skills/design-md`. Change it here when the design changes.
+This file wins over the brand references in `.claude/skills/design-md`. The Figma file and `/mnt/project-files/design/tokens-v0.2-light.json` hold the same values; change all of them together.
 
 ## Feel
 
-Clean white pages, black type, pill-shaped controls and one warm accent. The UI stays quiet so the food and the emoji vibe tags carry the personality. It follows the Uber-inspired system's structure (white canvas, black ink, pills, 16px cards, sentence-case headlines, flat surfaces) and breaks one of its rules on purpose: CraveCrunch adds Crave Orange as its single accent.
+Clean white pages, black type, pill-shaped controls and one warm accent. The UI stays quiet so the food and the emoji vibe tags carry the personality. Structure follows the Uber-inspired system (white canvas, black ink, pills, 16px cards, sentence-case headlines, flat surfaces), with orange added as the action color.
 
 ## Color rules
 
-- **Crave Orange `#ff6b00`** fills the one primary action per screen ("Crunch it", "Find food"). Text on orange is **ink black**, never white (white on this orange fails contrast).
-- **Orange ink `#c2410c`** is for orange text on white: the 💎 Hidden Gem badge, inline links, the active tab label.
-- **Ink black** is for all text, selected chips (black pill, white text) and the dark promo band.
-- Grays come from the canvas scale. No gradients, no other accent colors.
+- **Orange is the only action color.** The primary CTA ("Crunch it", "Find food") is an `orange-strong` pill with white text; pressed goes to `orange-ink`.
+- Bright `orange` is decorative only: progress, selected outlines, match scores and numbers 24px or larger. Never small text, never under white text.
+- Small orange text on white (the 💎 Hidden gem badge, eyebrows, links) uses `orange-ink`.
+- Secondary CTA is a black pill (white text); tertiary is a `surface` gray pill.
+- Selected filter chips are black pills with white text.
+- No glows or atmospheric backdrops. Gradients only on food hero images and, optionally, the primary CTA.
 
 ## Shapes and depth
 
-- Every tappable control is a pill (999px): buttons, vibe chips, budget chips, app-download buttons.
-- Cards are 16px radius, flat by default. Only the main craving card gets the soft shadow `0 4px 16px rgba(0,0,0,0.16)`.
+- Every tappable control is a pill (999px). Cards use 16px.
+- Cards are flat `surface` gray by default; the main craving card gets the `card` shadow.
 - A black band mid-page (white text, white pill button) breaks up long white pages.
 
 ## Type
 
-- Inter everywhere. Display weight 700, never letter-spaced. Body 400, buttons 500.
-- Sentence case for headlines and buttons. Uppercase only for short eyebrows like "QUESTION 1 OF 2".
+- Plus Jakarta Sans everywhere, using the scale above. Headlines are sentence case with slight negative tracking.
+- Uppercase only for small `label-s` eyebrows like "QUESTION 1 OF 2", in `orange-ink`.
 
 ## Vibe tags
 
-Emoji + label inside a soft gray pill (`canvas-soft`, ink text). Selected: black pill, white text. The emoji set lives in `packages/core/src/vibes.ts`.
+Emoji + label in a gray pill, black label; selected is a black pill with white label. The Figma tokens also define tag tints (purple, pink, blue, yellow) for colored tag variants, not used in code yet. The emoji set lives in `packages/core/src/vibes.ts`.
 
 ## Motion
 
@@ -71,4 +76,4 @@ Follow the `emil-design-eng` skill: pills scale to 0.97 on press over 160ms with
 
 ## Code
 
-Tokens live in `packages/core/src/theme.ts` and are mirrored as CSS variables in `apps/web/src/app/globals.css`.
+Tokens live in `packages/core/src/theme.ts`, are mirrored as CSS variables in `apps/web/src/app/globals.css`, and the app loads the font faces in `apps/mobile/src/app/_layout.tsx`.

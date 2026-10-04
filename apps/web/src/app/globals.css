@@ -1,31 +1,35 @@
 @import "tailwindcss";
 
-/* Values mirror packages/core/src/theme.ts. See DESIGN.md. */
+/* Values mirror packages/core/src/theme.ts and the Figma tokens. See DESIGN.md. */
 :root {
   --ink: #000000;
-  --body: #5e5e5e;
-  --mute: #afafaf;
+  --text-secondary: #4b4b4b;
+  --text-muted: #6b6b6b;
   --canvas: #ffffff;
-  --canvas-soft: #efefef;
-  --surface-pressed: #e2e2e2;
-  --orange: #ff6b00;
-  --orange-ink: #c2410c;
-  --orange-soft: #fff1e6;
+  --surface: #f6f6f6;
+  --elevated: #eeeeee;
+  --border-subtle: #e8e8e8;
+  --orange: #ff5a00;
+  --orange-strong: #d63f00;
+  --orange-ink: #b83a00;
+  --orange-tint: #fff1e6;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   color-scheme: light;
 }
 
 @theme inline {
   --color-ink: var(--ink);
-  --color-body: var(--body);
-  --color-mute: var(--mute);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
   --color-canvas: var(--canvas);
-  --color-canvas-soft: var(--canvas-soft);
-  --color-surface-pressed: var(--surface-pressed);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-border-subtle: var(--border-subtle);
   --color-orange: var(--orange);
+  --color-orange-strong: var(--orange-strong);
   --color-orange-ink: var(--orange-ink);
-  --color-orange-soft: var(--orange-soft);
-  --font-sans: var(--font-inter);
+  --color-orange-tint: var(--orange-tint);
+  --font-sans: var(--font-jakarta);
 }
 
 body {

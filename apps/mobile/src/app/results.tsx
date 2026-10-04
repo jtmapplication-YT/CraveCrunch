@@ -14,6 +14,8 @@ import {
   type VibeTagId,
 } from '@cravecrunch/core';
 
+import { fonts } from '@/constants/fonts';
+
 export default function Results() {
   const params = useLocalSearchParams<{ vibes?: string; maxPrice?: string }>();
   const vibes = (params.vibes?.split(',').filter(Boolean) ?? []) as VibeTagId[];
@@ -47,9 +49,9 @@ export default function Results() {
 
 const styles = StyleSheet.create({
   page: { padding: 16, gap: 12 },
-  card: { backgroundColor: colors.canvasSoft, borderRadius: radii.xl, padding: 20, gap: 4 },
-  gem: { color: colors.orangeInk, fontSize: 14, fontWeight: '500' },
-  name: { color: colors.ink, fontSize: 20, lineHeight: 28, fontWeight: '700' },
-  meta: { color: colors.body, fontSize: 14 },
-  note: { color: colors.body, fontSize: 12, marginTop: 8 },
+  card: { backgroundColor: colors.surface, borderRadius: radii.lg, padding: 20, gap: 4 },
+  gem: { color: colors.orangeInk, fontSize: 13, fontFamily: fonts.medium },
+  name: { color: colors.ink, fontSize: 20, lineHeight: 27, fontFamily: fonts.bold, letterSpacing: -0.2 },
+  meta: { color: colors.textSecondary, fontSize: 14, fontFamily: fonts.regular },
+  note: { color: colors.textMuted, fontSize: 12, fontFamily: fonts.medium, marginTop: 8 },
 });
