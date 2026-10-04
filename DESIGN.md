@@ -1,7 +1,7 @@
 ---
-version: 3
+version: 4
 name: CraveCrunch
-description: Light, sleek food-finder UI inspired by Uber's design system, with orange as the only action color, Street Poster headlines (Archivo Expanded) and sticker-style emoji vibe tags. Colors match the Figma tokens v0.2 (light).
+description: Light, sleek food-finder UI inspired by Uber's design system, with orange as the action color, Night Market headlines (tall condensed all-caps Big Shoulders on orange bands) and emoji vibe tags. Colors match the Figma tokens v0.2 (light).
 
 colors:
   ink: "#000000"            # headings, body, selected chips, dark bands
@@ -18,12 +18,12 @@ colors:
   on-brand: "#ffffff"
 
 typography:
-  display-family: Archivo at width 125% (Archivo Expanded), weights 800-900. Headlines, logo, restaurant names, primary button, big numbers.
+  display-family: Big Shoulders, weights 800-900, always uppercase. Headlines, logo, restaurant names, primary button.
   family: Plus Jakarta Sans, then system-ui, -apple-system, Helvetica Neue, Arial. Everything else.
-  hero: 64 (web) / 30-42 (phone) / 0.98 / Archivo Expanded 900 / -0.03em
-  display-l: 40 / 1.05 / Archivo Expanded 900 / -0.02em
-  heading-h1: 24 / 1.2 / Archivo Expanded 900 / -0.015em
-  heading-h2: 20 / 1.25 / Archivo Expanded 800 / -0.01em
+  hero: 96 (web) / 52-56 (phone) / 0.9 / Big Shoulders 900 / uppercase
+  display-l: 56 / 0.95 / Big Shoulders 900 / uppercase
+  heading-h1: 32 / 1.0 / Big Shoulders 900 / uppercase
+  heading-h2: 28 / 1.05 / Big Shoulders 900 / uppercase (restaurant names)
   heading-h3: 16 / 1.3 / 600
   body-l: 16 / 1.5 / 400
   body-m: 14 / 1.5 / 400
@@ -49,30 +49,30 @@ Clean white pages, black type, pill-shaped controls and one warm accent. The UI 
 
 ## Color rules
 
-- **Orange is the only action color.** The primary CTA ("Crunch it", "Find food") is an `orange-strong` pill with white text; pressed goes to `orange-ink`.
-- Bright `orange` is decorative only: progress, selected outlines, match scores and numbers 24px or larger. Never small text, never under white text.
+- **Orange is the brand color.** The top of key screens (and the web hero) sits on a full-width bright `orange` band with ink text. Ink on `orange` passes contrast (7:1); white on `orange` does not, so never put white text on it.
+- The primary CTA ("CRUNCH IT") is a black pill with white Big Shoulders text. On a black band, the CTA flips to an `orange` pill with ink text.
+- On white, bright `orange` is for bands, the left accent bar on pick cards, progress, and large display text (32px+). Never small text on white.
 - Small orange text on white (the 💎 Hidden gem badge, eyebrows, links) uses `orange-ink`.
-- Secondary CTA is a black pill (white text); tertiary is a `surface` gray pill.
+- Secondary CTA is a `surface` gray pill.
 - Selected filter chips are black pills with white text.
-- No glows or atmospheric backdrops. Gradients only on food hero images and, optionally, the primary CTA.
+- No glows, gradients or atmospheric backdrops; flat orange and black blocks do the work.
 
 ## Shapes and depth
 
 - Every tappable control is a pill (999px). Cards use 16px.
-- Cards are flat `surface` gray by default; the main craving card gets the `card` shadow.
+- Cards are flat `surface` gray. Pick cards have a 4px `orange` left bar (4px radius on the left, 16px on the right). The craving card on an orange band is white with the `card` shadow.
 - A black band mid-page (white text, white pill button) breaks up long white pages.
 
-## Type ("Street Poster")
+## Type ("Night Market")
 
-- Headlines use Archivo Expanded, black weight, tight leading and negative tracking, so they hit like a street-food sign. Sentence case with a question or a punchy line ("What are you craving tonight?").
-- One key word per headline can get the **orange highlighter**: `orange` fill behind ink text, small radius. Use it once per screen at most.
-- The logo is the wordmark CRAVECRUNCH in Archivo Expanded 900.
-- Body, labels and chips use Plus Jakarta Sans. Uppercase only for small `label-s` eyebrows like "QUESTION 1 OF 2", in `orange-ink`.
-- Large orange numbers (24px+) like pick ranks "01" use bright `orange` in Archivo Expanded.
+- Headlines use Big Shoulders black, all caps, very tight leading (0.9-1.0), like a menu board or night-market sign. Keep them short and punchy ("WHAT ARE YOU CRAVING TONIGHT?").
+- The logo is the wordmark CRAVECRUNCH in Big Shoulders 900.
+- One key phrase per headline can turn `orange` on a black band (for example "HOLE-IN-THE-WALL").
+- Body, labels and chips use Plus Jakarta Sans in sentence case. Uppercase Jakarta only for small `label-s` eyebrows like "QUESTION 1 OF 2": `orange-ink` on white, ink on an orange band.
 
 ## Vibe tags
 
-Sticker style: emoji + label in a white pill with a 1.5px ink outline. Selected tags turn into black pills with white labels and tilt slightly (-2 to 2 degrees), like stickers slapped on. Turn the tilt off for reduced motion. The Figma tokens also define tag tints (purple, pink, blue, yellow) for colored tag variants, not used in code yet. The emoji set lives in `packages/core/src/vibes.ts`.
+Emoji + label in a `surface` gray pill with an ink label; selected tags are black pills with white labels. The Figma tokens also define tag tints (purple, pink, blue, yellow) for colored tag variants, not used in code yet. The emoji set lives in `packages/core/src/vibes.ts`.
 
 ## Motion
 
@@ -80,4 +80,4 @@ Follow the `emil-design-eng` skill: pills scale to 0.97 on press over 160ms with
 
 ## Code
 
-Tokens live in `packages/core/src/theme.ts`, are mirrored as CSS variables in `apps/web/src/app/globals.css` (`.font-display`, `.highlight`, `.sticker`), and the app loads the font faces in `apps/mobile/src/app/_layout.tsx` (Archivo Expanded TTFs in `apps/mobile/assets/fonts`).
+Tokens live in `packages/core/src/theme.ts`, are mirrored as CSS variables in `apps/web/src/app/globals.css` (`.font-display`), and the app loads the font faces in `apps/mobile/src/app/_layout.tsx` (`@expo-google-fonts/big-shoulders`).

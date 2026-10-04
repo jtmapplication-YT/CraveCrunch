@@ -1,91 +1,157 @@
-import { router } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { router } from "expo-router";
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { VIBE_TAGS, colors, radii, type PriceLevel, type VibeTagId } from '@cravecrunch/core';
+import {
+  VIBE_TAGS,
+  colors,
+  radii,
+  type PriceLevel,
+  type VibeTagId,
+} from "@cravecrunch/core";
 
-import { PressScale } from '@/components/press-scale';
-import { fonts } from '@/constants/fonts';
+import { PressScale } from "@/components/press-scale";
+import { fonts } from "@/constants/fonts";
 
 const PRICES: PriceLevel[] = [1, 2, 3, 4];
-// Selected vibe tags tilt slightly, like stickers.
-const TILTS = ['-2deg', '1.5deg', '-1deg', '2deg'];
 
 export default function CraveQuestionnaire() {
   const [vibes, setVibes] = useState<VibeTagId[]>([]);
   const [maxPrice, setMaxPrice] = useState<PriceLevel>(2);
 
   const toggleVibe = (id: VibeTagId) =>
-    setVibes((current) => (current.includes(id) ? current.filter((v) => v !== id) : [...current, id]));
+    setVibes((current) =>
+      current.includes(id) ? current.filter((v) => v !== id) : [...current, id],
+    );
 
   return (
     <ScrollView contentContainerStyle={styles.page}>
-      <Text style={styles.eyebrow}>QUESTION 1 OF 2</Text>
-      <Text style={styles.question}>
-        What are you <Text style={styles.highlight}> craving </Text> tonight?
-      </Text>
-      <View style={styles.chips}>
-        {VIBE_TAGS.map((tag, i) => {
-          const on = vibes.includes(tag.id);
-          return (
-            <PressScale key={tag.id} onPress={() => toggleVibe(tag.id)} accessibilityState={{ selected: on }}>
-              <View style={[styles.chip, on && styles.chipOn, on && { transform: [{ rotate: TILTS[i % TILTS.length] }] }]}>
-                <Text style={[styles.chipText, on && styles.chipTextOn]}>
-                  {tag.emoji} {tag.label}
-                </Text>
-              </View>
-            </PressScale>
-          );
-        })}
+      <View style={styles.band}>
+        <Text style={[styles.eyebrow, styles.eyebrowOnBand]}>
+          QUESTION 1 OF 2
+        </Text>
+        <Text style={styles.hero}>WHAT ARE YOU CRAVING TONIGHT?</Text>
       </View>
-
-      <Text style={styles.eyebrow}>QUESTION 2 OF 2</Text>
-      <Text style={styles.question}>What&apos;s the budget?</Text>
-      <View style={styles.chips}>
-        {PRICES.map((p) => {
-          const on = p === maxPrice;
-          return (
-            <PressScale key={p} onPress={() => setMaxPrice(p)} accessibilityState={{ selected: on }}>
-              <View style={[styles.chip, on && styles.chipOn]}>
-                <Text style={[styles.chipText, on && styles.chipTextOn]}>{'$'.repeat(p)}</Text>
-              </View>
-            </PressScale>
-          );
-        })}
-      </View>
-
-      <PressScale
-        disabled={vibes.length === 0}
-        onPress={() =>
-          router.push({ pathname: '/results', params: { vibes: vibes.join(','), maxPrice: String(maxPrice) } })
-        }>
-        <View style={[styles.cta, vibes.length === 0 && styles.ctaDisabled]}>
-          <Text style={[styles.ctaText, vibes.length === 0 && styles.ctaTextDisabled]}>{vibes.length === 0 ? 'Pick a vibe first' : 'Crunch it 🎲'}</Text>
+      <View style={styles.body}>
+        <View style={styles.chips}>
+          {VIBE_TAGS.map((tag) => {
+            const on = vibes.includes(tag.id);
+            return (
+              <PressScale
+                key={tag.id}
+                onPress={() => toggleVibe(tag.id)}
+                accessibilityState={{ selected: on }}
+              >
+                <View style={[styles.chip, on && styles.chipOn]}>
+                  <Text style={[styles.chipText, on && styles.chipTextOn]}>
+                    {tag.emoji} {tag.label}
+                  </Text>
+                </View>
+              </PressScale>
+            );
+          })}
         </View>
-      </PressScale>
+
+        <Text style={styles.eyebrow}>QUESTION 2 OF 2</Text>
+        <Text style={styles.question}>WHAT&apos;S THE BUDGET?</Text>
+        <View style={styles.chips}>
+          {PRICES.map((p) => {
+            const on = p === maxPrice;
+            return (
+              <PressScale
+                key={p}
+                onPress={() => setMaxPrice(p)}
+                accessibilityState={{ selected: on }}
+              >
+                <View style={[styles.chip, on && styles.chipOn]}>
+                  <Text style={[styles.chipText, on && styles.chipTextOn]}>
+                    {"$".repeat(p)}
+                  </Text>
+                </View>
+              </PressScale>
+            );
+          })}
+        </View>
+
+        <PressScale
+          disabled={vibes.length === 0}
+          onPress={() =>
+            router.push({
+              pathname: "/results",
+              params: { vibes: vibes.join(","), maxPrice: String(maxPrice) },
+            })
+          }
+        >
+          <View style={[styles.cta, vibes.length === 0 && styles.ctaDisabled]}>
+            <Text
+              style={[
+                styles.ctaText,
+                vibes.length === 0 && styles.ctaTextDisabled,
+              ]}
+            >
+              {vibes.length === 0 ? "PICK A VIBE FIRST" : "CRUNCH IT 🎲"}
+            </Text>
+          </View>
+        </PressScale>
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  page: { padding: 16, gap: 12 },
-  eyebrow: { color: colors.orangeInk, fontSize: 11, fontFamily: fonts.bold, letterSpacing: 0.66, marginTop: 12 },
-  question: { color: colors.ink, fontSize: 30, lineHeight: 32, fontFamily: fonts.display, letterSpacing: -0.9 },
-  highlight: { backgroundColor: colors.orange, color: colors.ink },
-  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  page: { paddingBottom: 24 },
+  band: {
+    backgroundColor: colors.orange,
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+    gap: 6,
+  },
+  body: { padding: 16, gap: 12 },
+  eyebrow: {
+    color: colors.orangeInk,
+    fontSize: 11,
+    fontFamily: fonts.bold,
+    letterSpacing: 0.66,
+    marginTop: 12,
+  },
+  eyebrowOnBand: { color: colors.ink, marginTop: 4 },
+  hero: {
+    color: colors.ink,
+    fontSize: 52,
+    lineHeight: 48,
+    paddingTop: 4,
+    fontFamily: fonts.display,
+  },
+  question: {
+    color: colors.ink,
+    fontSize: 32,
+    lineHeight: 32,
+    paddingTop: 2,
+    fontFamily: fonts.display,
+  },
+  chips: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   chip: {
     paddingHorizontal: 14,
     paddingVertical: 9,
     borderRadius: radii.pill,
-    borderWidth: 1.5,
-    borderColor: colors.ink,
-    backgroundColor: colors.canvas,
+    backgroundColor: colors.surface,
   },
   chipOn: { backgroundColor: colors.ink },
-  chipText: { color: colors.ink, fontSize: 14, fontFamily: fonts.semibold },
+  chipText: { color: colors.ink, fontSize: 14, fontFamily: fonts.medium },
   chipTextOn: { color: colors.onBrand },
-  cta: { marginTop: 20, borderRadius: radii.pill, paddingVertical: 16, alignItems: 'center', backgroundColor: colors.orangeStrong },
+  cta: {
+    marginTop: 20,
+    borderRadius: radii.pill,
+    paddingVertical: 14,
+    alignItems: "center",
+    backgroundColor: colors.ink,
+  },
   ctaDisabled: { backgroundColor: colors.elevated },
-  ctaText: { color: colors.onBrand, fontSize: 16, fontFamily: fonts.displayBold, letterSpacing: 0.2 },
+  ctaText: {
+    color: colors.onBrand,
+    fontSize: 22,
+    fontFamily: fonts.display,
+    letterSpacing: 0.9,
+  },
   ctaTextDisabled: { color: colors.textMuted },
 });

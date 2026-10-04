@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Archivo, Plus_Jakarta_Sans } from "next/font/google";
+import { Big_Shoulders, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"] });
-// Archivo with the width axis, used expanded (125%) for headlines. See DESIGN.md.
-const archivo = Archivo({ variable: "--font-archivo", subsets: ["latin"], axes: ["wdth"] });
+// Tall condensed menu-board type for headlines ("Night Market"). See DESIGN.md.
+const bigShoulders = Big_Shoulders({ variable: "--font-display", subsets: ["latin"], weight: ["800", "900"] });
 
 export const metadata: Metadata = {
   title: "CraveCrunch",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${archivo.variable} h-full antialiased`}>
+    <html lang="en" className={`${jakarta.variable} ${bigShoulders.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">{children}</body>
     </html>
   );
