@@ -1,20 +1,21 @@
-/** Dark neon palette shared by the app and the website. */
+/** Light, Uber-inspired palette with Crave Orange as the one accent. See DESIGN.md. */
 export const colors = {
-  bg: '#0d0b14',
-  surface: '#17131f',
-  line: '#2a2336',
-  text: '#f1ecf7',
-  muted: '#a59bb5',
-  purple: '#a855f7',
-  pink: '#ec4899',
-  blue: '#38bdf8',
-  orange: '#fb923c',
+  ink: '#000000',
+  body: '#5e5e5e',
+  mute: '#afafaf',
+  canvas: '#ffffff',
+  canvasSoft: '#efefef',
+  canvasSofter: '#f3f3f3',
+  surfacePressed: '#e2e2e2',
+  /** Primary CTA fill. Put ink text on it, never white. */
+  orange: '#ff6b00',
+  /** Orange text on white (gem badge, links). */
+  orangeInk: '#c2410c',
+  orangeSoft: '#fff1e6',
+  onDark: '#ffffff',
 } as const;
 
-export const gradients = {
-  crave: [colors.purple, colors.pink, colors.orange],
-  cool: [colors.blue, colors.purple],
-} as const;
+export const radii = { md: 8, xl: 16, pill: 999 } as const;
 
 /** Motion values, following the emil-design-eng skill. */
 export const motion = {

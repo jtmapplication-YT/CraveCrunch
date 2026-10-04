@@ -1,9 +1,8 @@
 import { router } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { VIBE_TAGS, colors, gradients, type PriceLevel, type VibeTagId } from '@cravecrunch/core';
+import { VIBE_TAGS, colors, radii, type PriceLevel, type VibeTagId } from '@cravecrunch/core';
 
 import { PressScale } from '@/components/press-scale';
 
@@ -25,15 +24,11 @@ export default function CraveQuestionnaire() {
           const on = vibes.includes(tag.id);
           return (
             <PressScale key={tag.id} onPress={() => toggleVibe(tag.id)} accessibilityState={{ selected: on }}>
-              {on ? (
-                <LinearGradient colors={gradients.crave} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.chip}>
-                  <Text style={[styles.chipText, styles.chipTextOn]}>{tag.emoji} {tag.label}</Text>
-                </LinearGradient>
-              ) : (
-                <View style={[styles.chip, styles.chipOff]}>
-                  <Text style={styles.chipText}>{tag.emoji} {tag.label}</Text>
-                </View>
-              )}
+              <View style={[styles.chip, on && styles.chipOn]}>
+                <Text style={[styles.chipText, on && styles.chipTextOn]}>
+                  {tag.emoji} {tag.label}
+                </Text>
+              </View>
             </PressScale>
           );
         })}
@@ -42,13 +37,16 @@ export default function CraveQuestionnaire() {
       <Text style={styles.eyebrow}>QUESTION 2 OF 2</Text>
       <Text style={styles.question}>Budget?</Text>
       <View style={styles.chips}>
-        {PRICES.map((p) => (
-          <PressScale key={p} onPress={() => setMaxPrice(p)} accessibilityState={{ selected: p === maxPrice }}>
-            <View style={[styles.chip, p === maxPrice ? styles.priceOn : styles.chipOff]}>
-              <Text style={styles.chipText}>{'$'.repeat(p)}</Text>
-            </View>
-          </PressScale>
-        ))}
+        {PRICES.map((p) => {
+          const on = p === maxPrice;
+          return (
+            <PressScale key={p} onPress={() => setMaxPrice(p)} accessibilityState={{ selected: on }}>
+              <View style={[styles.chip, on && styles.chipOn]}>
+                <Text style={[styles.chipText, on && styles.chipTextOn]}>{'$'.repeat(p)}</Text>
+              </View>
+            </PressScale>
+          );
+        })}
       </View>
 
       <PressScale
@@ -56,29 +54,24 @@ export default function CraveQuestionnaire() {
         onPress={() =>
           router.push({ pathname: '/results', params: { vibes: vibes.join(','), maxPrice: String(maxPrice) } })
         }>
-        <LinearGradient
-          colors={gradients.crave}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={[styles.cta, vibes.length === 0 && styles.ctaDisabled]}>
+        <View style={[styles.cta, vibes.length === 0 && styles.ctaDisabled]}>
           <Text style={styles.ctaText}>{vibes.length === 0 ? 'Pick a vibe first' : 'Crunch it 🎲'}</Text>
-        </LinearGradient>
+        </View>
       </PressScale>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  page: { padding: 20, gap: 14 },
-  eyebrow: { color: colors.blue, fontSize: 12, letterSpacing: 1.4, marginTop: 8 },
-  question: { color: colors.text, fontSize: 22, fontWeight: '800' },
+  page: { padding: 16, gap: 12 },
+  eyebrow: { color: colors.body, fontSize: 12, fontWeight: '500', letterSpacing: 1.2, marginTop: 12 },
+  question: { color: colors.ink, fontSize: 24, lineHeight: 32, fontWeight: '700' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { paddingHorizontal: 14, paddingVertical: 8, borderRadius: 999 },
-  chipOff: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.line },
-  priceOn: { backgroundColor: colors.purple },
-  chipText: { color: colors.text, fontSize: 15 },
-  chipTextOn: { fontWeight: '700' },
-  cta: { marginTop: 16, borderRadius: 16, paddingVertical: 16, alignItems: 'center' },
-  ctaDisabled: { opacity: 0.4 },
-  ctaText: { color: '#fff', fontSize: 17, fontWeight: '800' },
+  chip: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: radii.pill, backgroundColor: colors.canvasSoft },
+  chipOn: { backgroundColor: colors.ink },
+  chipText: { color: colors.ink, fontSize: 14, fontWeight: '500' },
+  chipTextOn: { color: colors.onDark },
+  cta: { marginTop: 20, borderRadius: radii.pill, paddingVertical: 16, alignItems: 'center', backgroundColor: colors.orange },
+  ctaDisabled: { backgroundColor: colors.canvasSoft },
+  ctaText: { color: colors.ink, fontSize: 18, fontWeight: '500' },
 });

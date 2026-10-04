@@ -5,6 +5,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import {
   SAMPLE_RESTAURANTS,
   colors,
+  radii,
   isHiddenGem,
   motion,
   rankForCrave,
@@ -31,7 +32,7 @@ export default function Results() {
         <Animated.View
           entering={FadeInDown.duration(motion.enterMs).delay(index * motion.staggerMs)}
           style={styles.card}>
-          {isHiddenGem(item) && <Text style={styles.gem}>💎 HIDDEN GEM</Text>}
+          {isHiddenGem(item) && <Text style={styles.gem}>💎 Hidden gem</Text>}
           <Text style={styles.name}>{item.name}</Text>
           <View>
             <Text style={styles.meta}>
@@ -45,10 +46,10 @@ export default function Results() {
 }
 
 const styles = StyleSheet.create({
-  page: { padding: 20, gap: 12 },
-  card: { backgroundColor: colors.surface, borderColor: colors.line, borderWidth: 1, borderRadius: 16, padding: 16, gap: 4 },
-  gem: { color: colors.orange, fontSize: 11, fontWeight: '700', letterSpacing: 1 },
-  name: { color: colors.text, fontSize: 18, fontWeight: '800' },
-  meta: { color: colors.muted, fontSize: 14 },
-  note: { color: colors.muted, fontSize: 12, marginTop: 8 },
+  page: { padding: 16, gap: 12 },
+  card: { backgroundColor: colors.canvasSoft, borderRadius: radii.xl, padding: 20, gap: 4 },
+  gem: { color: colors.orangeInk, fontSize: 14, fontWeight: '500' },
+  name: { color: colors.ink, fontSize: 20, lineHeight: 28, fontWeight: '700' },
+  meta: { color: colors.body, fontSize: 14 },
+  note: { color: colors.body, fontSize: 12, marginTop: 8 },
 });
