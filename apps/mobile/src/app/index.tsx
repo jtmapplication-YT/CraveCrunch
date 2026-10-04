@@ -8,6 +8,8 @@ import { PressScale } from '@/components/press-scale';
 import { fonts } from '@/constants/fonts';
 
 const PRICES: PriceLevel[] = [1, 2, 3, 4];
+// Selected vibe tags tilt slightly, like stickers.
+const TILTS = ['-2deg', '1.5deg', '-1deg', '2deg'];
 
 export default function CraveQuestionnaire() {
   const [vibes, setVibes] = useState<VibeTagId[]>([]);
@@ -19,13 +21,15 @@ export default function CraveQuestionnaire() {
   return (
     <ScrollView contentContainerStyle={styles.page}>
       <Text style={styles.eyebrow}>QUESTION 1 OF 2</Text>
-      <Text style={styles.question}>What&apos;s the vibe tonight?</Text>
+      <Text style={styles.question}>
+        What are you <Text style={styles.highlight}> craving </Text> tonight?
+      </Text>
       <View style={styles.chips}>
-        {VIBE_TAGS.map((tag) => {
+        {VIBE_TAGS.map((tag, i) => {
           const on = vibes.includes(tag.id);
           return (
             <PressScale key={tag.id} onPress={() => toggleVibe(tag.id)} accessibilityState={{ selected: on }}>
-              <View style={[styles.chip, on && styles.chipOn]}>
+              <View style={[styles.chip, on && styles.chipOn, on && { transform: [{ rotate: TILTS[i % TILTS.length] }] }]}>
                 <Text style={[styles.chipText, on && styles.chipTextOn]}>
                   {tag.emoji} {tag.label}
                 </Text>
@@ -36,7 +40,7 @@ export default function CraveQuestionnaire() {
       </View>
 
       <Text style={styles.eyebrow}>QUESTION 2 OF 2</Text>
-      <Text style={styles.question}>Budget?</Text>
+      <Text style={styles.question}>What&apos;s the budget?</Text>
       <View style={styles.chips}>
         {PRICES.map((p) => {
           const on = p === maxPrice;
@@ -66,14 +70,22 @@ export default function CraveQuestionnaire() {
 const styles = StyleSheet.create({
   page: { padding: 16, gap: 12 },
   eyebrow: { color: colors.orangeInk, fontSize: 11, fontFamily: fonts.bold, letterSpacing: 0.66, marginTop: 12 },
-  question: { color: colors.ink, fontSize: 24, lineHeight: 31, fontFamily: fonts.bold, letterSpacing: -0.36 },
+  question: { color: colors.ink, fontSize: 30, lineHeight: 32, fontFamily: fonts.display, letterSpacing: -0.9 },
+  highlight: { backgroundColor: colors.orange, color: colors.ink },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  chip: { paddingHorizontal: 16, paddingVertical: 10, borderRadius: radii.pill, backgroundColor: colors.surface },
+  chip: {
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+    borderRadius: radii.pill,
+    borderWidth: 1.5,
+    borderColor: colors.ink,
+    backgroundColor: colors.canvas,
+  },
   chipOn: { backgroundColor: colors.ink },
-  chipText: { color: colors.ink, fontSize: 14, fontFamily: fonts.medium },
+  chipText: { color: colors.ink, fontSize: 14, fontFamily: fonts.semibold },
   chipTextOn: { color: colors.onBrand },
   cta: { marginTop: 20, borderRadius: radii.pill, paddingVertical: 16, alignItems: 'center', backgroundColor: colors.orangeStrong },
   ctaDisabled: { backgroundColor: colors.elevated },
-  ctaText: { color: colors.onBrand, fontSize: 16, fontFamily: fonts.semibold },
+  ctaText: { color: colors.onBrand, fontSize: 16, fontFamily: fonts.displayBold, letterSpacing: 0.2 },
   ctaTextDisabled: { color: colors.textMuted },
 });

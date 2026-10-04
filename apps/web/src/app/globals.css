@@ -37,9 +37,32 @@ body {
   color: var(--ink);
 }
 
+/* Street Poster headlines: Archivo at full width. */
+.font-display {
+  font-family: var(--font-archivo), var(--font-jakarta), system-ui, sans-serif;
+  font-stretch: 125%;
+}
+
+/* Orange highlighter behind a key word. */
+.highlight {
+  background: var(--orange);
+  color: var(--ink);
+  padding: 0 0.12em;
+  border-radius: 0.15em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 .pressable {
   transition: transform 160ms var(--ease-out), background-color 160ms ease;
 }
 .pressable:active {
   transform: scale(0.97);
+}
+
+.sticker:nth-child(odd) { transform: rotate(-2deg); }
+.sticker:nth-child(even) { transform: rotate(1.5deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker { transform: none !important; }
 }

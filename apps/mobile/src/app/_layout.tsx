@@ -3,7 +3,6 @@ import {
   PlusJakartaSans_500Medium,
   PlusJakartaSans_600SemiBold,
   PlusJakartaSans_700Bold,
-  PlusJakartaSans_800ExtraBold,
   useFonts,
 } from '@expo-google-fonts/plus-jakarta-sans';
 import { Stack } from 'expo-router';
@@ -19,12 +18,13 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
+    [fonts.display]: require('../../assets/fonts/ArchivoExpanded-900.ttf'),
+    [fonts.displayBold]: require('../../assets/fonts/ArchivoExpanded-800.ttf'),
     PlusJakartaSans_400Regular,
     PlusJakartaSans_500Medium,
     PlusJakartaSans_600SemiBold,
     PlusJakartaSans_700Bold,
-    PlusJakartaSans_800ExtraBold,
-  });
+    });
 
   useEffect(() => {
     if (loaded || error) SplashScreen.hideAsync();
@@ -39,11 +39,11 @@ export default function RootLayout() {
         screenOptions={{
           headerStyle: { backgroundColor: colors.canvas },
           headerTintColor: colors.ink,
-          headerTitleStyle: { fontFamily: fonts.bold },
+          headerTitleStyle: { fontFamily: fonts.display, fontSize: 17 },
           headerShadowVisible: false,
           contentStyle: { backgroundColor: colors.canvas },
         }}>
-        <Stack.Screen name="index" options={{ title: 'CraveCrunch' }} />
+        <Stack.Screen name="index" options={{ title: 'CRAVECRUNCH' }} />
         <Stack.Screen name="results" options={{ title: 'Your picks' }} />
       </Stack>
     </>

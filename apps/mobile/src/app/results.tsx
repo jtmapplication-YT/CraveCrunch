@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   page: { padding: 16, gap: 12 },
   card: { backgroundColor: colors.surface, borderRadius: radii.lg, padding: 20, gap: 4 },
   gem: { color: colors.orangeInk, fontSize: 13, fontFamily: fonts.medium },
-  name: { color: colors.ink, fontSize: 20, lineHeight: 27, fontFamily: fonts.bold, letterSpacing: -0.2 },
+  name: { color: colors.ink, fontSize: 19, lineHeight: 24, fontFamily: fonts.displayBold, letterSpacing: -0.3 },
   meta: { color: colors.textSecondary, fontSize: 14, fontFamily: fonts.regular },
   note: { color: colors.textMuted, fontSize: 12, fontFamily: fonts.medium, marginTop: 8 },
 });
