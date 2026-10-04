@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* Values mirror packages/core/src/theme.ts and the Figma tokens. See DESIGN.md. */
+:root {
+  --ink: #000000;
+  --text-secondary: #4b4b4b;
+  --text-muted: #6b6b6b;
+  --canvas: #ffffff;
+  --surface: #f6f6f6;
+  --elevated: #eeeeee;
+  --border-subtle: #e8e8e8;
+  --orange: #ff5a00;
+  --orange-strong: #d63f00;
+  --orange-ink: #b83a00;
+  --orange-tint: #fff1e6;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-elevated: var(--elevated);
+  --color-border-subtle: var(--border-subtle);
+  --color-orange: var(--orange);
+  --color-orange-strong: var(--orange-strong);
+  --color-orange-ink: var(--orange-ink);
+  --color-orange-tint: var(--orange-tint);
+  --font-sans: var(--font-jakarta);
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+/* Shrikhand display face: logo, hero headline, restaurant names. 24px and up only. */
+.font-display {
+  font-family: var(--font-display), var(--font-jakarta), system-ui, sans-serif;
+  font-weight: 400;
+}
+
+.pressable {
+  transition: transform 160ms var(--ease-out), background-color 160ms ease;
+}
+.pressable:active {
+  transform: scale(0.97);
+}
