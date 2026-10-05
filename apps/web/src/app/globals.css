@@ -49,3 +49,15 @@ body {
 .pressable:active {
   transform: scale(0.97);
 }
+
+/* Result cards fade up on each crunch (50ms stagger set inline). */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-up {
+  animation: fade-up 220ms var(--ease-out) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { animation: none; }
+}

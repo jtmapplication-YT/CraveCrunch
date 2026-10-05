@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { SAMPLE_RESTAURANTS, VIBE_TAGS, isHiddenGem, rankForCrave, vibeById } from "@cravecrunch/core";
-
-const SELECTED = new Set(["spicy", "street"]);
+import { CravePicker } from "./_crave/crave-picker";
+import { CravePicks } from "./_crave/crave-picks";
+import { CraveProvider } from "./_crave/crave-state";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -13,19 +13,13 @@ export default async function Home() {
     ? await supabase.from("profiles").select("username").eq("id", user.id).maybeSingle()
     : { data: null };
 
-  const picks = rankForCrave(SAMPLE_RESTAURANTS, {
-    vibes: ["spicy", "street"],
-    maxPrice: 2,
-    maxDistanceMiles: 5,
-  }).slice(0, 3);
-
   return (
-    <>
+    <CraveProvider>
       <header className="bg-orange">
         <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-8">
           <span className="font-display text-2xl">CraveCrunch</span>
           <div className="flex items-center gap-3 text-base font-semibold">
-            <a href="#how" className="hidden sm:inline">How it works</a>
+            <a href="#picks" className="hidden sm:inline">Tonight&apos;s picks</a>
             {user ? (
               <form action="/auth/sign-out" method="post" className="flex items-center gap-3">
                 <span className="hidden sm:inline">@{profile?.username ?? "you"}</span>
@@ -48,49 +42,12 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 rounded-2xl bg-canvas p-4 shadow-[0_8px_24px_rgba(0,0,0,0.12)] sm:p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.06em] text-orange-ink">Pick your vibe</p>
-            <div className="flex flex-wrap gap-2">
-              {VIBE_TAGS.map((tag) => (
-                <span
-                  key={tag.id}
-                  className={`rounded-full px-3.5 py-2 text-sm font-medium ${SELECTED.has(tag.id) ? "bg-ink text-white" : "bg-surface"}`}
-                >
-                  {tag.emoji} {tag.label}
-                </span>
-              ))}
-            </div>
-            <div className="flex items-center justify-between rounded-lg bg-surface px-4 py-3 text-base">
-              <span className="text-secondary">Budget</span>
-              <span className="text-lg font-extrabold">$$</span>
-            </div>
-            <button type="button" className="pressable rounded-full bg-ink px-5 py-3.5 text-base font-bold text-white">
-              Crunch it 🎲
-            </button>
-          </div>
+          <CravePicker />
         </section>
       </header>
 
       <main className="flex flex-col">
-        <section id="how" className="mx-auto flex w-full max-w-6xl flex-col gap-5 px-4 py-12 sm:px-8">
-          <h2 className="text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.5rem]">
-            Tonight&apos;s picks for 🔥 + 🌮
-          </h2>
-          <ul className="grid gap-4 md:grid-cols-3">
-            {picks.map((r) => (
-              <li key={r.id} className="flex flex-col gap-1 rounded-r-2xl rounded-l-sm border-l-4 border-orange bg-surface p-6">
-                <span className={`text-sm font-semibold ${isHiddenGem(r) ? "text-orange-ink" : "text-secondary"}`}>
-                  {isHiddenGem(r) ? "💎 Hidden gem" : "Local favorite"}
-                </span>
-                <span className="font-display text-[1.75rem] leading-tight">{r.name}</span>
-                <span className="text-sm text-secondary">
-                  {r.vibes.map((v) => vibeById(v)?.emoji).join(" ")} · {r.rating} from {r.reviewCount} reviews
-                </span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-xs text-muted">Sample data until real restaurants are connected.</p>
-        </section>
+        <CravePicks />
 
         <section id="get-app" className="mx-auto w-full max-w-6xl px-4 pb-12 sm:px-8">
           <div className="flex flex-col items-start gap-4 rounded-2xl bg-ink p-6 text-white sm:p-10">
@@ -112,6 +69,6 @@ export default async function Home() {
           <span className="font-display text-xl text-white">CraveCrunch</span>
         </div>
       </footer>
-    </>
+    </CraveProvider>
   );
 }
