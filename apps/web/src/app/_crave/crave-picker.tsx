@@ -1,9 +1,7 @@
 "use client";
 
-import { VIBE_TAGS, type PriceLevel } from "@cravecrunch/core";
+import { PRICE_LEVELS, VIBE_TAGS } from "@cravecrunch/core";
 import { useCrave } from "./crave-state";
-
-const PRICES: PriceLevel[] = [1, 2, 3, 4];
 
 /** The vibe + budget card on the orange band. */
 export function CravePicker() {
@@ -30,22 +28,25 @@ export function CravePicker() {
         })}
       </div>
 
-      <div className="flex items-center justify-between gap-3 rounded-lg bg-surface px-4 py-2">
-        <span id="budget-label" className="text-base text-secondary">Budget</span>
-        <div role="radiogroup" aria-labelledby="budget-label" className="flex gap-1">
-          {PRICES.map((p) => {
-            const on = p === maxPrice;
+      <div className="flex flex-col gap-2">
+        <p id="budget-label" className="text-xs font-bold uppercase tracking-[0.06em] text-orange-ink">
+          Budget per person
+        </p>
+        <div role="radiogroup" aria-labelledby="budget-label" className="grid grid-cols-4 gap-2">
+          {PRICE_LEVELS.map(({ level, symbol, range }) => {
+            const on = level === maxPrice;
             return (
               <button
-                key={p}
+                key={level}
                 type="button"
                 role="radio"
                 aria-checked={on}
-                aria-label={`Up to ${"$".repeat(p)}`}
-                onClick={() => setMaxPrice(p)}
-                className={`pressable rounded-full px-3 py-1.5 text-sm font-extrabold ${on ? "bg-ink text-white" : "hover:bg-elevated"}`}
+                aria-label={`${symbol}, ${range} per person`}
+                onClick={() => setMaxPrice(level)}
+                className={`pressable flex flex-col items-center rounded-full px-1 py-2 ${on ? "bg-ink text-white" : "bg-surface hover:bg-elevated"}`}
               >
-                {"$".repeat(p)}
+                <span className="text-sm font-extrabold">{symbol}</span>
+                <span className={`text-xs font-medium ${on ? "text-white/80" : "text-secondary"}`}>{range}</span>
               </button>
             );
           })}
