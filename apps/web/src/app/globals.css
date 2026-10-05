@@ -1,14 +1,18 @@
 @import "tailwindcss";
 
-/* Values mirror packages/core/src/theme.ts and the Figma tokens. See DESIGN.md. */
+/* Values mirror packages/core/src/theme.ts and tokens-v0.4. See DESIGN.md. */
 :root {
   --ink: #000000;
-  --text-secondary: #4b4b4b;
+  --text-secondary: #5e5e5e;
   --text-muted: #6b6b6b;
   --canvas: #ffffff;
   --surface: #f6f6f6;
   --elevated: #eeeeee;
   --border-subtle: #e8e8e8;
+  --subtle: #efefef;
+  --softer: #f3f3f3;
+  --pressed: #e2e2e2;
+  --on-dark-muted: #cfcfcf;
   --orange: #ff5a00;
   --orange-strong: #d63f00;
   --orange-ink: #b83a00;
@@ -25,6 +29,12 @@
   --color-surface: var(--surface);
   --color-elevated: var(--elevated);
   --color-border-subtle: var(--border-subtle);
+  --color-subtle: var(--subtle);
+  --color-softer: var(--softer);
+  --color-pressed: var(--pressed);
+  --color-on-dark-muted: var(--on-dark-muted);
+  --shadow-float: 0 2px 8px rgba(0, 0, 0, 0.16);
+  --shadow-form: 0 4px 16px rgba(0, 0, 0, 0.16);
   --color-orange: var(--orange);
   --color-orange-strong: var(--orange-strong);
   --color-orange-ink: var(--orange-ink);
@@ -37,10 +47,11 @@ body {
   color: var(--ink);
 }
 
-/* Shrikhand display face: logo, hero headline, restaurant names. 24px and up only. */
+/* Bricolage Grotesque 800: logo, screen titles, restaurant names, promo titles. 20px and up only. */
 .font-display {
   font-family: var(--font-display), var(--font-jakarta), system-ui, sans-serif;
-  font-weight: 400;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .pressable {

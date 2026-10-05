@@ -92,11 +92,11 @@ function AuthFormFields({ confirmed, savedEmail }: { confirmed: boolean; savedEm
     }
   }
 
-  const input = "rounded-xl bg-surface px-4 py-3 text-base outline-none ring-ink focus:ring-2";
+  const input = "h-12 rounded-lg bg-softer px-4 text-base outline-none ring-ink focus:ring-2";
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4 rounded-2xl bg-canvas p-6 shadow-[0_8px_24px_rgba(0,0,0,0.12)]">
-      <div className="grid grid-cols-2 gap-1 rounded-full bg-surface p-1 text-sm font-semibold">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 rounded-2xl bg-canvas p-6 shadow-form">
+      <div className="grid grid-cols-2 gap-1 rounded-full bg-subtle p-1 text-sm font-semibold">
         {(["sign-up", "sign-in"] as const).map((m) => (
           <button
             key={m}
@@ -166,7 +166,7 @@ function AuthFormFields({ confirmed, savedEmail }: { confirmed: boolean; savedEm
       <button
         type="submit"
         disabled={busy}
-        className="pressable rounded-full bg-ink px-5 py-3.5 text-base font-bold text-white disabled:opacity-60"
+        className="pressable h-14 rounded-full bg-ink px-5 text-base font-bold text-white disabled:opacity-60"
       >
         {busy ? "One sec…" : mode === "sign-up" ? "Create account" : "Sign in"}
       </button>

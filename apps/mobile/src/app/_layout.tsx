@@ -1,10 +1,10 @@
 // Per-weight imports so only these faces get bundled.
+import { BricolageGrotesque_800ExtraBold } from '@expo-google-fonts/bricolage-grotesque/800ExtraBold';
 import { PlusJakartaSans_400Regular } from '@expo-google-fonts/plus-jakarta-sans/400Regular';
 import { PlusJakartaSans_500Medium } from '@expo-google-fonts/plus-jakarta-sans/500Medium';
 import { PlusJakartaSans_600SemiBold } from '@expo-google-fonts/plus-jakarta-sans/600SemiBold';
 import { PlusJakartaSans_700Bold } from '@expo-google-fonts/plus-jakarta-sans/700Bold';
 import { PlusJakartaSans_800ExtraBold } from '@expo-google-fonts/plus-jakarta-sans/800ExtraBold';
-import { Shrikhand_400Regular } from '@expo-google-fonts/shrikhand/400Regular';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -20,7 +20,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    Shrikhand_400Regular,
+    BricolageGrotesque_800ExtraBold,
     PlusJakartaSans_400Regular,
     PlusJakartaSans_500Medium,
     PlusJakartaSans_600SemiBold,
@@ -41,7 +41,7 @@ export default function RootLayout() {
         screenOptions={{
           headerStyle: { backgroundColor: colors.orange },
           headerTintColor: colors.ink,
-          headerTitleStyle: { fontFamily: fonts.display, fontSize: 24 },
+          headerTitleStyle: { fontFamily: fonts.display, fontSize: 24 }, // header styles take no letterSpacing
           headerShadowVisible: false,
           contentStyle: { backgroundColor: colors.canvas },
         }}>
