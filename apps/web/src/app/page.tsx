@@ -1,8 +1,18 @@
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 import { SAMPLE_RESTAURANTS, VIBE_TAGS, isHiddenGem, rankForCrave, vibeById } from "@cravecrunch/core";
 
 const SELECTED = new Set(["spicy", "street"]);
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data: profile } = user
+    ? await supabase.from("profiles").select("username").eq("id", user.id).maybeSingle()
+    : { data: null };
+
   const picks = rankForCrave(SAMPLE_RESTAURANTS, {
     vibes: ["spicy", "street"],
     maxPrice: 2,
@@ -16,7 +26,14 @@ export default function Home() {
           <span className="font-display text-2xl">CraveCrunch</span>
           <div className="flex items-center gap-3 text-base font-semibold">
             <a href="#how" className="hidden sm:inline">How it works</a>
-            <a href="#get-app" className="pressable rounded-full bg-ink px-4 py-2 text-white">Get the app</a>
+            {user ? (
+              <form action="/auth/sign-out" method="post" className="flex items-center gap-3">
+                <span className="hidden sm:inline">@{profile?.username ?? "you"}</span>
+                <button type="submit" className="pressable rounded-full bg-ink px-4 py-2 text-white">Sign out</button>
+              </form>
+            ) : (
+              <Link href="/sign-in" className="pressable rounded-full bg-ink px-4 py-2 text-white">Sign in</Link>
+            )}
           </div>
         </nav>
 
