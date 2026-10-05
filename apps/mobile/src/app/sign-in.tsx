@@ -1,8 +1,16 @@
 import { router } from 'expo-router';
 import { useState, type ComponentProps } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { colors, normalizeUsername, radii, validateEmail, validatePassword, validateUsername } from '@cravecrunch/core';
+import {
+  REMEMBERED_EMAIL_KEY,
+  colors,
+  normalizeUsername,
+  radii,
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from '@cravecrunch/core';
 
 import { PressScale } from '@/components/press-scale';
 import { fonts } from '@/constants/fonts';
@@ -10,14 +18,35 @@ import { supabase } from '@/lib/supabase';
 
 type Mode = 'sign-up' | 'sign-in';
 
+// localStorage here is the on-device store installed by '@/lib/supabase' (expo-sqlite).
+function readRememberedEmail(): string | null {
+  try {
+    return typeof localStorage === 'undefined' ? null : localStorage.getItem(REMEMBERED_EMAIL_KEY);
+  } catch {
+    return null;
+  }
+}
+
 export default function SignIn() {
-  const [mode, setMode] = useState<Mode>('sign-up');
+  const [savedEmail] = useState(readRememberedEmail);
+  // Returning people with a remembered email start on Sign in.
+  const [mode, setMode] = useState<Mode>(savedEmail ? 'sign-in' : 'sign-up');
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(savedEmail ?? '');
+  const [remember, setRemember] = useState(true);
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  function rememberEmail(value: string) {
+    try {
+      if (remember) localStorage.setItem(REMEMBERED_EMAIL_KEY, value);
+      else localStorage.removeItem(REMEMBERED_EMAIL_KEY);
+    } catch {
+      // Storage unavailable: nothing to remember.
+    }
+  }
 
   async function submit() {
     setError(null);
@@ -31,6 +60,7 @@ export default function SignIn() {
       if (mode === 'sign-in') {
         const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         if (error) return setError(error.message);
+        rememberEmail(email.trim());
         return router.back();
       }
 
@@ -44,6 +74,7 @@ export default function SignIn() {
         options: { data: { username: name } },
       });
       if (error) return setError(error.message);
+      rememberEmail(email.trim());
       if (data.session) return router.back();
       setNotice(`Check ${email.trim()} for a link to confirm your account, then sign in here.`);
       setMode('sign-in');
@@ -83,7 +114,8 @@ export default function SignIn() {
               value={username}
               onChangeText={setUsername}
               placeholder="taco_hunter"
-              autoComplete="username"
+              autoComplete="nickname"
+              textContentType="nickname"
             />
           )}
           <Field
@@ -91,7 +123,9 @@ export default function SignIn() {
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
-            autoComplete="email"
+            // The email is the login name, so the phone's password manager saves it with the password.
+            autoComplete="username"
+            textContentType="username"
           />
           <Field
             label="Password"
@@ -99,7 +133,19 @@ export default function SignIn() {
             onChangeText={setPassword}
             secureTextEntry
             autoComplete={mode === 'sign-up' ? 'new-password' : 'current-password'}
+            textContentType={mode === 'sign-up' ? 'newPassword' : 'password'}
           />
+
+          <Pressable
+            style={styles.remember}
+            onPress={() => setRemember((r) => !r)}
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: remember }}>
+            <View style={[styles.checkbox, remember && styles.checkboxOn]}>
+              {remember && <Text style={styles.checkmark}>✓</Text>}
+            </View>
+            <Text style={styles.label}>Remember me</Text>
+          </Pressable>
 
           {error && <Text style={styles.error}>{error}</Text>}
           {notice && <Text style={styles.notice}>{notice}</Text>}
@@ -154,6 +200,18 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     color: colors.ink,
   },
+  remember: { flexDirection: 'row', alignItems: 'center', gap: 10, alignSelf: 'flex-start', paddingVertical: 4 },
+  checkbox: {
+    width: 22,
+    height: 22,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: colors.ink,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkboxOn: { backgroundColor: colors.ink },
+  checkmark: { color: colors.onBrand, fontSize: 14, fontFamily: fonts.bold, lineHeight: 16 },
   error: { color: colors.orangeInk, fontSize: 14, fontFamily: fonts.medium },
   notice: {
     backgroundColor: colors.orangeTint,
