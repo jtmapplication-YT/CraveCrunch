@@ -2,12 +2,10 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { VIBE_TAGS, colors, radii, type PriceLevel, type VibeTagId } from '@cravecrunch/core';
+import { PRICE_LEVELS, VIBE_TAGS, colors, radii, type PriceLevel, type VibeTagId } from '@cravecrunch/core';
 
 import { PressScale } from '@/components/press-scale';
 import { fonts } from '@/constants/fonts';
-
-const PRICES: PriceLevel[] = [1, 2, 3, 4];
 
 export default function CraveQuestionnaire() {
   const [vibes, setVibes] = useState<VibeTagId[]>([]);
@@ -40,15 +38,23 @@ export default function CraveQuestionnaire() {
 
         <Text style={styles.eyebrow}>QUESTION 2 OF 2</Text>
         <Text style={styles.question}>What&apos;s the budget?</Text>
-        <View style={styles.chips}>
-          {PRICES.map((p) => {
-            const on = p === maxPrice;
+        <Text style={styles.hint}>Per person</Text>
+        <View style={styles.prices}>
+          {PRICE_LEVELS.map(({ level, symbol, range }) => {
+            const on = level === maxPrice;
             return (
-              <PressScale key={p} onPress={() => setMaxPrice(p)} accessibilityState={{ selected: on }}>
-                <View style={[styles.chip, on && styles.chipOn]}>
-                  <Text style={[styles.chipText, on && styles.chipTextOn]}>{'$'.repeat(p)}</Text>
-                </View>
-              </PressScale>
+              <View key={level} style={styles.priceCell}>
+                <PressScale
+                  onPress={() => setMaxPrice(level)}
+                  accessibilityRole="radio"
+                  accessibilityLabel={`${symbol}, ${range} per person`}
+                  accessibilityState={{ selected: on }}>
+                  <View style={[styles.price, on && styles.chipOn]}>
+                    <Text style={[styles.priceSymbol, on && styles.chipTextOn]}>{symbol}</Text>
+                    <Text style={[styles.priceRange, on && styles.priceRangeOn]}>{range}</Text>
+                  </View>
+                </PressScale>
+              </View>
             );
           })}
         </View>
@@ -101,6 +107,13 @@ const styles = StyleSheet.create({
   chipOn: { backgroundColor: colors.ink },
   chipText: { color: colors.ink, fontSize: 14, fontFamily: fonts.medium },
   chipTextOn: { color: colors.onBrand },
+  hint: { color: colors.textSecondary, fontSize: 14, fontFamily: fonts.medium, marginTop: -6 },
+  prices: { flexDirection: 'row', gap: 8 },
+  priceCell: { flex: 1 },
+  price: { alignItems: 'center', paddingVertical: 9, borderRadius: radii.pill, backgroundColor: colors.surface },
+  priceSymbol: { color: colors.ink, fontSize: 14, fontFamily: fonts.extrabold },
+  priceRange: { color: colors.textSecondary, fontSize: 11, fontFamily: fonts.medium },
+  priceRangeOn: { color: colors.onBrand },
   cta: {
     marginTop: 20,
     borderRadius: radii.pill,
