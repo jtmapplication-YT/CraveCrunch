@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 
 import { colors } from '@cravecrunch/core';
 
+import { AccountButton } from '@/components/account-button';
 import { fonts } from '@/constants/fonts';
 
 SplashScreen.preventAutoHideAsync();
@@ -44,8 +45,9 @@ export default function RootLayout() {
           headerShadowVisible: false,
           contentStyle: { backgroundColor: colors.canvas },
         }}>
-        <Stack.Screen name="index" options={{ title: 'CraveCrunch' }} />
+        <Stack.Screen name="index" options={{ title: 'CraveCrunch', headerRight: () => <AccountButton /> }} />
         <Stack.Screen name="results" options={{ title: 'Your picks' }} />
+        <Stack.Screen name="sign-in" options={{ title: '', presentation: 'modal' }} />
       </Stack>
     </>
   );
