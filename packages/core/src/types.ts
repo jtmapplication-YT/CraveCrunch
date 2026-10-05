@@ -21,13 +21,20 @@ export interface Restaurant {
   priceLevel?: PriceLevel;
   lat: number;
   lng: number;
-  rating: number;
-  reviewCount: number;
+  /** Unknown until the spot is matched to Google Places. */
+  rating?: number;
+  reviewCount?: number;
   vibes: VibeTagId[];
   /** True when the brand has many locations. Chains never get the gem badge. */
   isChain: boolean;
   /** Number of CraveCrunch upvotes in the last 30 days. */
   recentUpvotes: number;
+  /** On the team's hand-picked gem list. Counts as a hidden gem while it has no ratings yet. */
+  curated?: boolean;
+  neighbourhood?: string;
+  address?: string;
+  /** One line on why it's worth the trip. */
+  blurb?: string;
 }
 
 export interface TasteProfile {

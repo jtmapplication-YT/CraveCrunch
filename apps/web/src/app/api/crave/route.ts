@@ -2,7 +2,8 @@ import Anthropic from "@anthropic-ai/sdk";
 import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
 
-import { SAMPLE_RESTAURANTS, VIBE_TAGS, rankForCrave, type CraveAnswers } from "@cravecrunch/core";
+import { VIBE_TAGS, rankForCrave, type CraveAnswers } from "@cravecrunch/core";
+import { loadRestaurants } from "@/lib/restaurants";
 
 const AnswersSchema = z.object({
   vibes: z.array(z.enum(VIBE_TAGS.map((t) => t.id) as [string, ...string[]])).max(5),
@@ -27,8 +28,9 @@ export async function POST(request: Request) {
   }
   const answers = parsed.data as CraveAnswers;
 
-  // TODO: replace sample data with a Supabase + Google Places query near the user.
-  const candidates = rankForCrave(SAMPLE_RESTAURANTS, answers).slice(0, 10);
+  // TODO: filter to spots near the diner once locations are verified.
+  const { restaurants } = await loadRestaurants();
+  const candidates = rankForCrave(restaurants, answers).slice(0, 10);
   const localPicks = candidates.slice(0, 3).map((r) => ({ restaurantId: r.id, why: "Matches your vibe." }));
 
   if (!process.env.ANTHROPIC_API_KEY) {

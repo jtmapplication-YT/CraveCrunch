@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { loadRestaurants } from "@/lib/restaurants";
 import { createClient } from "@/lib/supabase/server";
 import { CravePicker } from "./_crave/crave-picker";
 import { CravePicks } from "./_crave/crave-picks";
@@ -6,6 +7,7 @@ import { CraveProvider } from "./_crave/crave-state";
 
 export default async function Home() {
   const supabase = await createClient();
+  const { restaurants, sample } = await loadRestaurants();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -14,7 +16,7 @@ export default async function Home() {
     : { data: null };
 
   return (
-    <CraveProvider>
+    <CraveProvider restaurants={restaurants} sample={sample}>
       <header className="bg-orange">
         <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-8">
           <span className="font-display text-2xl">CraveCrunch</span>

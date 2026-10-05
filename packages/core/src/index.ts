@@ -7,3 +7,4 @@ export * from './sample-data';
 export * from './auth';
 export * from './price';
 export * from './supabase';
+export * from './restaurant-rows';

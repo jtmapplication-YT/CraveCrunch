@@ -1,11 +1,11 @@
 "use client";
 
-import { isHiddenGem, vibeById } from "@cravecrunch/core";
+import { isHiddenGem, restaurantMeta, vibeById } from "@cravecrunch/core";
 import { useCrave } from "./crave-state";
 
 /** "Tonight's picks" cards for the last crunch. */
 export function CravePicks() {
-  const { picks, pickedVibes, round } = useCrave();
+  const { picks, pickedVibes, round, sample } = useCrave();
   const emojis = pickedVibes.map((v) => vibeById(v)?.emoji).join(" + ");
 
   return (
@@ -29,15 +29,18 @@ export function CravePicks() {
                 {isHiddenGem(r) ? "💎 Hidden gem" : "Local favorite"}
               </span>
               <span className="font-display text-[1.75rem] leading-tight">{r.name}</span>
-              <span className="text-sm text-secondary">
-                {r.vibes.map((v) => vibeById(v)?.emoji).join(" ")} · {r.rating} from {r.reviewCount} reviews
-              </span>
+              <span className="text-sm text-secondary">{restaurantMeta(r)}</span>
+              {r.blurb && <span className="text-sm">{r.blurb}</span>}
               {why && <span className="mt-1 text-sm font-medium">{why}</span>}
             </li>
           ))}
         </ul>
       )}
-      <p className="text-xs text-muted">Sample data until real restaurants are connected.</p>
+      <p className="text-xs text-muted">
+        {sample
+          ? "Sample data until real restaurants are connected."
+          : "Winnipeg spots from our starter list, still being verified. Check allergies with the restaurant."}
+      </p>
     </section>
   );
 }
