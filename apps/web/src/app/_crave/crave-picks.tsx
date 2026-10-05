@@ -10,7 +10,7 @@ export function CravePicks() {
 
   return (
     <section id="picks" className="mx-auto flex w-full max-w-6xl scroll-mt-4 flex-col gap-5 px-4 py-12 sm:px-8">
-      <h2 className="text-[1.75rem] font-extrabold leading-tight tracking-[-0.02em] sm:text-[2.5rem]">
+      <h2 className="text-[1.75rem] font-extrabold leading-tight sm:text-[2.5rem]">
         Tonight&apos;s picks for {emojis}
       </h2>
       {picks.length === 0 ? (

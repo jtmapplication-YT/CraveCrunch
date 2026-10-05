@@ -9,7 +9,7 @@ export function CravePicker() {
   const ready = vibes.length > 0;
 
   return (
-    <div className="flex flex-col gap-4 rounded-2xl bg-canvas p-4 shadow-[0_8px_24px_rgba(0,0,0,0.12)] sm:p-6">
+    <div className="flex flex-col gap-4 rounded-2xl bg-canvas p-4 shadow-form sm:p-6">
       <p className="text-xs font-bold uppercase tracking-[0.06em] text-orange-ink">Pick your vibe</p>
       <div className="flex flex-wrap gap-2">
         {VIBE_TAGS.map((tag) => {
@@ -20,7 +20,7 @@ export function CravePicker() {
               type="button"
               aria-pressed={on}
               onClick={() => toggleVibe(tag.id)}
-              className={`pressable rounded-full px-3.5 py-2 text-sm font-medium ${on ? "bg-ink text-white" : "bg-surface hover:bg-elevated"}`}
+              className={`pressable rounded-full px-3.5 py-[9px] text-[13px] font-medium ${on ? "bg-ink text-white" : "bg-subtle hover:bg-pressed"}`}
             >
               {tag.emoji} {tag.label}
             </button>
@@ -43,7 +43,7 @@ export function CravePicker() {
                 aria-checked={on}
                 aria-label={`${symbol}, ${range} per person`}
                 onClick={() => setMaxPrice(level)}
-                className={`pressable flex flex-col items-center rounded-full px-1 py-2 ${on ? "bg-ink text-white" : "bg-surface hover:bg-elevated"}`}
+                className={`pressable flex flex-col items-center rounded-full px-1 py-2 ${on ? "bg-ink text-white" : "bg-subtle hover:bg-pressed"}`}
               >
                 <span className="text-sm font-extrabold">{symbol}</span>
                 <span className={`text-xs font-medium ${on ? "text-white/80" : "text-secondary"}`}>{range}</span>
@@ -57,7 +57,7 @@ export function CravePicker() {
         type="button"
         onClick={crunch}
         disabled={!ready || loading}
-        className="pressable rounded-full bg-ink px-5 py-3.5 text-base font-bold text-white disabled:bg-elevated disabled:text-muted"
+        className="pressable h-14 rounded-full bg-ink px-5 text-base font-bold text-white disabled:bg-subtle disabled:text-muted"
       >
         {loading ? "Crunching…" : ready ? "Crunch it 🎲" : "Pick a vibe first"}
       </button>

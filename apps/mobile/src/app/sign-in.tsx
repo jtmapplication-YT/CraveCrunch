@@ -13,7 +13,7 @@ import {
 } from '@cravecrunch/core';
 
 import { PressScale } from '@/components/press-scale';
-import { fonts } from '@/constants/fonts';
+import { displayType, fonts } from '@/constants/fonts';
 import { supabase } from '@/lib/supabase';
 
 type Mode = 'sign-up' | 'sign-in';
@@ -182,9 +182,9 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   page: { paddingBottom: 32 },
   band: { backgroundColor: colors.orange, paddingHorizontal: 16, paddingBottom: 24 },
-  title: { color: colors.ink, fontSize: 36, lineHeight: 42, fontFamily: fonts.display },
+  title: { color: colors.ink, ...displayType(36, 40) },
   body: { padding: 16, gap: 14 },
-  tabs: { flexDirection: 'row', gap: 4, padding: 4, borderRadius: radii.pill, backgroundColor: colors.surface },
+  tabs: { flexDirection: 'row', gap: 4, padding: 4, borderRadius: radii.pill, backgroundColor: colors.subtle },
   tab: { borderRadius: radii.pill, paddingVertical: 9, alignItems: 'center' },
   tabOn: { backgroundColor: colors.ink },
   tabText: { color: colors.textSecondary, fontSize: 14, fontFamily: fonts.semibold },
@@ -192,10 +192,10 @@ const styles = StyleSheet.create({
   field: { gap: 6 },
   label: { color: colors.ink, fontSize: 14, fontFamily: fonts.medium },
   input: {
-    backgroundColor: colors.surface,
-    borderRadius: radii.md,
+    backgroundColor: colors.subtle,
+    borderRadius: radii.input,
+    height: 48,
     paddingHorizontal: 16,
-    paddingVertical: 12,
     fontSize: 16,
     fontFamily: fonts.regular,
     color: colors.ink,
@@ -223,9 +223,10 @@ const styles = StyleSheet.create({
   },
   cta: {
     marginTop: 8,
+    height: 56,
     borderRadius: radii.pill,
-    paddingVertical: 16,
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: colors.ink,
   },
   ctaBusy: { opacity: 0.6 },

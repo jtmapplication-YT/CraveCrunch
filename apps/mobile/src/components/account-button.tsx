@@ -24,6 +24,7 @@ export function AccountButton() {
 }
 
 const styles = StyleSheet.create({
-  pill: { backgroundColor: colors.ink, borderRadius: radii.pill, paddingHorizontal: 14, paddingVertical: 7 },
-  label: { color: colors.onBrand, fontSize: 14, fontFamily: fonts.semibold },
+  // White on the orange band: the black pill is kept for each screen's one primary action.
+  pill: { backgroundColor: colors.canvas, borderRadius: radii.pill, paddingHorizontal: 14, paddingVertical: 7 },
+  label: { color: colors.ink, fontSize: 14, fontFamily: fonts.semibold },
 });
