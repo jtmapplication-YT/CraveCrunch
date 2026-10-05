@@ -7,8 +7,13 @@ export const GEM_BADGE_THRESHOLD = 0.65;
  * High ratings count most, few total reviews push the score up,
  * and recent CraveCrunch upvotes add a small boost. Chains score 0.
  */
-export function hiddenGemScore(r: Pick<Restaurant, 'rating' | 'reviewCount' | 'isChain' | 'recentUpvotes'>): number {
-  if (r.isChain || r.reviewCount < 5) return 0;
+type GemInputs = Pick<Restaurant, 'rating' | 'reviewCount' | 'isChain' | 'recentUpvotes' | 'curated'>;
+
+export function hiddenGemScore(r: GemInputs): number {
+  if (r.isChain) return 0;
+  // Hand-picked spots without ratings yet sit right at the badge line.
+  if (r.rating === undefined || r.reviewCount === undefined) return r.curated ? GEM_BADGE_THRESHOLD : 0;
+  if (r.reviewCount < 5) return 0;
 
   const quality = Math.max(0, Math.min(1, (r.rating - 3.5) / 1.5));
   // 5 reviews scores 1, 5,000+ reviews scores 0.
@@ -19,6 +24,6 @@ export function hiddenGemScore(r: Pick<Restaurant, 'rating' | 'reviewCount' | 'i
   return Math.round(score * 100) / 100;
 }
 
-export function isHiddenGem(r: Pick<Restaurant, 'rating' | 'reviewCount' | 'isChain' | 'recentUpvotes'>): boolean {
+export function isHiddenGem(r: GemInputs): boolean {
   return hiddenGemScore(r) >= GEM_BADGE_THRESHOLD;
 }
