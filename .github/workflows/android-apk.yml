@@ -1,0 +1,59 @@
+name: Android APK
+
+# Builds an installable Android app (.apk) on GitHub's machines, no Expo account needed.
+# On main it is published at the "android-latest" release, so the download link never changes:
+# https://github.com/jtmapplication-YT/CraveCrunch/releases/download/android-latest/CraveCrunch.apk
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['apps/mobile/**', 'packages/core/**', 'pnpm-lock.yaml', '.github/workflows/android-apk.yml']
+  pull_request:
+    paths: ['apps/mobile/**', 'packages/core/**', 'pnpm-lock.yaml', '.github/workflows/android-apk.yml']
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: gradle/actions/setup-gradle@v4
+      - run: pnpm install --frozen-lockfile
+      - name: Generate the Android project
+        working-directory: apps/mobile
+        run: npx expo prebuild --platform android --no-install
+      - name: Build the APK
+        working-directory: apps/mobile/android
+        # Release build signed with the template's debug key: fine for installing directly, not for the Play Store.
+        # arm64 only keeps the build fast; it covers nearly every Android phone in use.
+        run: ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a --no-daemon
+      - run: cp apps/mobile/android/app/build/outputs/apk/release/app-release.apk CraveCrunch.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CraveCrunch-apk
+          path: CraveCrunch.apk
+      - name: Publish to the android-latest release
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete android-latest --yes --cleanup-tag || true
+          gh release create android-latest CraveCrunch.apk \
+            --title "CraveCrunch for Android (latest)" \
+            --notes "Built from ${GITHUB_SHA::7}. Open this on your Android phone, download CraveCrunch.apk and install it." \
+            --target "$GITHUB_SHA" --prerelease
