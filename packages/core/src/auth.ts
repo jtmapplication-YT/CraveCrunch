@@ -23,3 +23,6 @@ export function validateEmail(input: string): string | null {
 export function validatePassword(input: string): string | null {
   return input.length >= MIN_PASSWORD_LENGTH ? null : `Passwords need at least ${MIN_PASSWORD_LENGTH} characters.`;
 }
+
+/** Where each app keeps the email for "Remember me" (browser or device storage, never the password). */
+export const REMEMBERED_EMAIL_KEY = 'cravecrunch.rememberedEmail';

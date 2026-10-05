@@ -1,21 +1,54 @@
 "use client";
 
-import { normalizeUsername, validateEmail, validatePassword, validateUsername } from "@cravecrunch/core";
+import {
+  REMEMBERED_EMAIL_KEY,
+  normalizeUsername,
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from "@cravecrunch/core";
 import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useState, useSyncExternalStore, type FormEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 type Mode = "sign-in" | "sign-up";
 
+function readRememberedEmail(): string | null {
+  try {
+    return localStorage.getItem(REMEMBERED_EMAIL_KEY);
+  } catch {
+    return null; // Storage blocked (private mode): start empty.
+  }
+}
+
+const noSubscribe = () => () => {};
+
 export function AuthForm({ confirmed }: { confirmed: boolean }) {
+  // The server has no localStorage, so the remembered email only appears once the page loads.
+  const saved = useSyncExternalStore(noSubscribe, readRememberedEmail, () => null);
+  return <AuthFormFields key={saved ?? ""} confirmed={confirmed} savedEmail={saved} />;
+}
+
+function AuthFormFields({ confirmed, savedEmail }: { confirmed: boolean; savedEmail: string | null }) {
   const router = useRouter();
-  const [mode, setMode] = useState<Mode>(confirmed ? "sign-in" : "sign-up");
-  const [email, setEmail] = useState("");
+  // Returning visitors (confirmed, or with a remembered email) start on Sign in.
+  const [mode, setMode] = useState<Mode>(confirmed || savedEmail ? "sign-in" : "sign-up");
+  const [email, setEmail] = useState(savedEmail ?? "");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(confirmed ? "Your email is confirmed. Sign in to continue." : null);
   const [busy, setBusy] = useState(false);
+  const [remember, setRemember] = useState(true);
+
+  function rememberEmail(value: string) {
+    try {
+      if (remember) localStorage.setItem(REMEMBERED_EMAIL_KEY, value);
+      else localStorage.removeItem(REMEMBERED_EMAIL_KEY);
+    } catch {
+      // Storage blocked: nothing to remember.
+    }
+  }
 
   async function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -31,6 +64,7 @@ export function AuthForm({ confirmed }: { confirmed: boolean }) {
       if (mode === "sign-in") {
         const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
         if (error) return setError(error.message);
+        rememberEmail(email.trim());
         router.push("/");
         router.refresh();
         return;
@@ -46,6 +80,7 @@ export function AuthForm({ confirmed }: { confirmed: boolean }) {
         options: { data: { username: name }, emailRedirectTo: `${window.location.origin}/auth/callback` },
       });
       if (error) return setError(error.message);
+      rememberEmail(email.trim());
       if (data.session) {
         router.push("/");
         router.refresh();
@@ -80,22 +115,49 @@ export function AuthForm({ confirmed }: { confirmed: boolean }) {
       {mode === "sign-up" && (
         <label className="flex flex-col gap-1.5 text-sm font-medium">
           Username
-          <input className={input} value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" placeholder="taco_hunter" />
+          <input
+            className={input}
+            name="nickname"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="nickname"
+            autoCapitalize="none"
+            placeholder="taco_hunter"
+          />
         </label>
       )}
       <label className="flex flex-col gap-1.5 text-sm font-medium">
         Email
-        <input className={input} type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+        {/* "username" marks this as the login name, so password managers save it with the password. */}
+        <input
+          className={input}
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="username"
+        />
       </label>
       <label className="flex flex-col gap-1.5 text-sm font-medium">
         Password
         <input
           className={input}
           type="password"
+          name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           autoComplete={mode === "sign-up" ? "new-password" : "current-password"}
         />
+      </label>
+
+      <label className="flex items-center gap-2 text-sm font-medium">
+        <input
+          type="checkbox"
+          checked={remember}
+          onChange={(e) => setRemember(e.target.checked)}
+          className="size-4 accent-ink"
+        />
+        Remember me
       </label>
 
       {error && <p role="alert" className="text-sm font-medium text-orange-ink">{error}</p>}
